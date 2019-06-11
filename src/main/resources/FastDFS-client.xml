@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<trackers>
+    <tracker>
+        <ip>192.168.16.88</ip>
+        <port>26666</port>
+        <weight>8</weight>
+        <charset>utf-8</charset>
+    </tracker>
+    <!--<tracker>
+        <ip>192.168.16.85</ip>
+        <port>23000</port>
+        <weight>8</weight>
+        <charset>utf-8</charset>
+    </tracker>-->
+</trackers>
