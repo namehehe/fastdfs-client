@@ -28,19 +28,16 @@ public class StorageSelector extends AbstractSelector<StorageNode> {
 
     @Override
     public StorageNode select() {
-        if(storages.isEmpty()){
-            try {
-                int n = 3;
-                while (n-- > 0) {
-                    Thread.currentThread().wait(2000L);
+        synchronized (storages) {
+            if(storages.isEmpty()){
+                try {
+                    storages.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-        }else {
             return storages.poll();
         }
-        return null;
     }
 
     @Override
@@ -54,7 +51,7 @@ public class StorageSelector extends AbstractSelector<StorageNode> {
             AtomicInteger weightAtm = node.getWeight();
             int weight = weightAtm.get();
 
-            if(weightAtm.compareAndSet(policy.calculateWeight(), weight)){
+            if(weightAtm.compareAndSet(weight, policy.calculateWeight())){
                 break;
             }
         }
@@ -68,7 +65,10 @@ public class StorageSelector extends AbstractSelector<StorageNode> {
     @Override
     public void returnNode(StorageNode node) {
         calculateWeight(node);
-        storages.add(node);
+        synchronized (storages) {
+            storages.add(node);
+            storages.notify();
+        }
     }
 
     public static class CustomicPolicy extends AbstractPolicy<StorageNode>{

@@ -2,7 +2,14 @@
 <trackers>
     <tracker>
         <ip>192.168.16.88</ip>
-        <port>26666</port>
+        <port>22122</port>
+        <weight>8</weight>
+        <charset>utf-8</charset>
+        <!-- 最大连接数，需要根据tracker的接收线程去确定 -->
+    </tracker>
+    <tracker>
+        <ip>192.168.16.66</ip>
+        <port>22122</port>
         <weight>8</weight>
         <charset>utf-8</charset>
     </tracker>
